@@ -5,6 +5,7 @@ Complete the lab by fixing the FIXME annotations below.
 
 import requests
 
+
 ########################################
 # FIXME 0:
 # Implement the following functions so that the test cases pass.
@@ -29,7 +30,8 @@ def is_server_at_hostname(hostname):
     and you will have to add it.
 
     # Test cases for code that works with the internet are hard to write.
-    # The are "nondeterministic" because the output of the test case depends not only on your code being correct,
+    # The are "nondeterministic" because the output of the test case
+    # depends not only on your code being correct,
     # but also on the webpages working correctly.
     # These test cases use google and facebook, which are almost certainly going to be online.
     # But if these webpages go down (or you're not connected to the internet),
@@ -79,15 +81,11 @@ def is_server_at_hostname(hostname):
     but it would also make scanning take much longer.
     5 seconds is a reasonable tradeoff between these extremes.
     '''
-    headers = {'Host': 'hostname'}
     try:
-        url = 'http://' + hostname.lower()
-        requests.get(url, timeout=10,
-        headers = headers)
-        print('SUCCESS:', hostname)
+        url = "http://" + hostname.lower()
+        requests.get(url, timeout=5)
         return True
-    except requests.exceptions.RequestException as e:
-        print('FAILED:', hostname, '-', e)
+    except requests.exceptions.RequestException:
         return False
 
 
@@ -112,15 +110,15 @@ def increment_ip(ip):
     >>> increment_ip('255.255.255.255')
     '0.0.0.0'
     '''
-    parts = ip.split('.')
-    nums = [int(p) for p in parts]
+    items = [int(i) for i in ip.split(".")]
     for i in range(3, -1, -1):
-        if nums[i] < 255:
-            nums[i] += 1
+        if items[i] < 255:
+            items[i] += 1
             break
         else:
-            nums[i] = 0
-    return '.'.join(str(n) for n in nums)
+            items[i] = 0
+    return ".".join(str(i) for i in items)
+
 
 def enumerate_ips(start_ip, n):
     '''
@@ -146,30 +144,24 @@ def enumerate_ips(start_ip, n):
     >>> len(list(enumerate_ips('8.8.8.8', 100000)))
     100000
     '''
-    parts = [int(p) for p in start_ip.split('.')]
-    result = []
-    for _ in range(n):
-        result.append('.'.join(str(p) for p in parts))
-        for i in range(3, -1, -1):
-            if parts[i] < 255:
-                parts[i] += 1
-                break
-            else:
-                parts[i] = 0
-    return result
+    current = start_ip
+    result_ip = [start_ip]
+
+    for i in range(n-1):
+        current = increment_ip(current)
+        result_ip.append(current)
+
+    return result_ip
 
 
-########################################
-# FIXME 1:
-# Create a list of all the IP addresses assigned to the DPRK.
-# Recall that the DPRK is assigned all IP addresses in the range from `175.45.176.0` to `175.45.179.255` (1024 IPs in total).
-# You should use your `enumerate_ips` function that you created above.
-########################################
-dprk_ips = []
-
-if __name__ == "__main__":
-    dprk_ips = list(enumerate_ips('175.45.176.0', 1024))
-
+    ########################################
+    # FIXME 1:
+    # Create a list of all the IP addresses assigned to the DPRK.
+    # Recall that the DPRK is assigned all IP addresses in the range from `175.45.176.0` to `175.45.179.255` (1024 IPs in total).
+    # You should use your `enumerate_ips` function that you created above.
+    ########################################
+if __name__ == '__main__':
+    dprk_ips = list(enumerate_ips('175.45.176.67', 40))
 
 ########################################
 # FIXME 2:
@@ -194,12 +186,13 @@ if __name__ == "__main__":
 # If you go on to take the CS46 class (data structures) next semester,
 # you'll learn how to write this parallel code.
 ########################################
-dprk_ips_with_servers = []
-for ip in dprk_ips:
-    print('Scanning:', ip)
-    if is_server_at_hostname(ip):
-        dprk_ips_with_servers.append(ip)
-        print("True")
+    dprk_ips_with_servers = []
+
+    for ip in dprk_ips:
+        print("Scanning:", ip)
+        if is_server_at_hostname(ip):
+            dprk_ips_with_servers.append(ip)
+            print('dprk_ips_with_servers=', dprk_ips_with_servers)
 
 
 ########################################
@@ -207,7 +200,7 @@ for ip in dprk_ips:
 # the following code should output the list of IP addresses.
 # You don't have to modify anything here.
 ########################################
-print('dprk_ips_with_servers=', dprk_ips_with_servers)
+    print('dprk_ips_with_servers=', dprk_ips_with_servers)
 
 ########################################
 # FIXME 3:
