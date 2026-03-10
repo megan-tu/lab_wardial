@@ -84,10 +84,10 @@ def is_server_at_hostname(hostname):
         url = 'http://' + hostname.lower()
         requests.get(url, timeout=10,
         headers = headers)
-        print('SUCCESS:', hostname)
+        #print('SUCCESS:', hostname)
         return True
     except requests.exceptions.RequestException as e:
-        print('FAILED:', hostname, '-', e)
+        #print('FAILED:', hostname, '-', e)
         return False
 
 
@@ -199,7 +199,7 @@ for ip in dprk_ips:
     print('Scanning:', ip)
     if is_server_at_hostname(ip):
         dprk_ips_with_servers.append(ip)
-        print("True")
+        #print("True")
 
 
 ########################################
