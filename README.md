@@ -2,7 +2,7 @@
 
 This project scans a range of DPRK IP addresses and lists which ones host a web server.
 
-![Tests](https://github.com/megan-tu/lab_wardialing/actions/workflows/tests.yml/badge.svg)
+[![doctests](https://github.com/megan-tu/lab_wardial/actions/workflows/tests.yml/badge.svg)](https://github.com/megan-tu/lab_wardial/actions/workflows/tests.yml)
 
 ### DPRK IPs with web servers
 ```
