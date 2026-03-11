@@ -79,15 +79,15 @@ def is_server_at_hostname(hostname):
     but it would also make scanning take much longer.
     5 seconds is a reasonable tradeoff between these extremes.
     '''
-    headers = {'Host': 'hostname'}
+    # headers = {'Host': 'hostname'}
     try:
         url = 'http://' + hostname.lower()
+        #headers = {'Host': hostname.lower()}
         requests.get(url, timeout=10,
-        headers = headers)
-        #print('SUCCESS:', hostname)
+        #headers = headers
+        )
         return True
-    except requests.exceptions.RequestException as e:
-        #print('FAILED:', hostname, '-', e)
+    except requests.exceptions.RequestException:
         return False
 
 
